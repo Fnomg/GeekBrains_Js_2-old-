@@ -1,3 +1,7 @@
-main {
-  background-color: rebeccapurple;
-}
+@import "global";
+@import "components/container";
+@import "components/button";
+@import "components/header";
+@import "components/nav__list";
+@import "components/promo";
+@import "components/goods-list";
