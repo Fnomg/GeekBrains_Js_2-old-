@@ -1,18 +1,81 @@
-const goods = [
-  { title: 'Shirt', price: 150 },
-  { title: 'Socks', price: 50 },
-  { title: 'Jacket', price: 350 },
-  { title: 'Shoes', price: 250 },
-  { title: 'Shoes' },
-];
+// const goods = [
+//   { id: 0, title: 'Shirt', price: 150 },
+//   { id: 1, title: 'Socks', price: 50 },
+//   { id: 2, title: 'Jacket', price: 350 },
+//   { id: 3, title: 'Shoes', price: 250 },
+//   { id: 4, title: 'Shoes' , price: 250},
+// ];
+//
+// const renderGoodsItem = (title, price = 500 ) => {
+//   return `<div class="goods-item">
+//           <h3>${title}</h3>
+//           <p>${price}</p>
+//           </div>`;
+// };
+//
+// const renderGoodsList = (list) => {
+//   let goodsList = list.map(item => renderGoodsItem(item.title, item.price)).join('');
+//   document.querySelector('.goods-list').innerHTML = goodsList;
+// }
+//
+// renderGoodsList(goods);
 
-const renderGoodsItem = (title, price = 500 ) => {
-  return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
+'use strict';
+
+class ProductItem {
+  constructor(product, img='https://via.placeholder.com/200x150') {
+
+    this.title = product.title
+    this.price = product.price
+    this.id = product.id
+    this.img = img
+  }
+
+  render() {
+    return `<div class="product-item" data-id="${this.id}">
+          <img src="${this.img}" alt="img">
+          <div class="product-description">
+            <h3>${this.title}</h3>
+            <p>${this.price}</p>
+            <button class="product-button button">Купить</button>
+          </div>
+        </div>`;
+  }
 };
 
-const renderGoodsList = (list) => {
-  let goodsList = list.map(item => renderGoodsItem(item.title, item.price)).join('');
-  document.querySelector('.goods-list').innerHTML = goodsList;
+class ProductList {
+  constructor(container = '.goods-list') {
+    this.container = document.querySelector(container)
+    this.goods = []
+    this.allProducts = []
+
+    this.fetchGoods()
+    this.render()
+  }
+
+  fetchGoods() {
+    this.goods = [
+      { id: 0, title: 'Shirt', price: 150 },
+      { id: 1, title: 'Socks', price: 50 },
+      { id: 2, title: 'Jacket', price: 350 },
+      { id: 3, title: 'Shoes', price: 250 },
+      { id: 4, title: 'Shoes' , price: 250},
+    ]
+  }
+
+  getSum() {
+    return this.goods.reduce( function (sum, cur) {
+      return sum + cur.price
+    }, 0)
+  }
+
+  render() {
+    for (let product of this.goods) {
+      const productObject = new ProductItem(product)
+      this.allProducts.push(productObject)
+      this.container.insertAdjacentHTML('beforeend', productObject.render())
+    }
+  }
 }
 
-renderGoodsList(goods);
+const list = new ProductList();
